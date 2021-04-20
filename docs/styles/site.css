@@ -1,0 +1,869 @@
+@font-face {
+  font-family: "Gotham";
+  src: url("../fonts/gotham/GOTHMLIG.TTF")
+}
+
+@font-face {
+  font-family: "Gotham Book";
+  src: url("../fonts/gotham/GOTHMBOK.TTF")
+}
+
+@font-face {
+  font-family: "Gotham Med";
+  src: url("../fonts/gotham/GOTHMMED.TTF")
+}
+
+html, body {
+  /* neccessary for the footer to be sticky to the bottom of the page */
+  height: 100%;
+  /* neccessary for the scroll bar not to push the navbar */
+  overflow-x: hidden;
+}
+
+body {
+  /* cause the navbar, content, and footer to be formatted in this order */
+  display: flex;
+  /* column makes it so the contents are ordered vertically instead of horizontally */
+  flex-direction: column;
+  /* prevents horizontal scrolling/overflow */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Gotham', sans-serif;
+  background-color: #f7f7f6;
+}
+
+main {
+  /* necessary for its child, article.content, to have its height follow that of .main */
+  display: flex;
+  /* make it direction flex so that it is the same orientation as its parent, body; makes it grow in height */
+  flex-direction: column;
+  /* flex-grow: 1; flex-shrink: 0; flex-basis: auto; */
+  flex: 1 0 auto;
+  /* prevents the appearance of scrollbar from pushing centered content */
+  /* vw: viewport width (size of the screen) */
+  width: 100vw;
+}
+
+.content {
+  position: relative;
+  display: block;
+  /* makes content stretch to fit height of .main. We don't use height:100% because height does not listen to height determined */
+  /* by flex height:100%; will only make .content stretch its height to article.main's content height, not the height set by flex */
+  flex-grow: 1;
+  /* prevents content from stretching to the whole width of screen, if screen exceeds 900px */
+  max-width: 900px;
+  /* set margin-top: 0; margin-right: auto; margin-bottom: 0; margin-left: auto; <-- centers content to middle of screen  */
+  margin: 0 auto;
+  /* set padding-top: 0px; padding-right: 30px; padding-bottom: 15px; padding-left: 30px; */
+  /* the headers have natural padding so there is no padding that needs to be added to the top */
+  /* without padding on the bottom, the footer sticks too close to content */
+  padding: 0px 30px 0px 30px;
+  /* make each line of text farther apart so the paragraphs don't look too dense*/
+  line-height: 125%;
+  /* makes center column a different background than default background color */
+  background-color: white;
+}
+
+/* --- common elements throughout website --- */
+
+img {
+  /* round the corners of all images */
+  border-radius: 5px;
+}
+
+h1, h2 {
+  /* because .content declares line-height to be 125% and these inherit this, redeclare line-height to default 100% */
+  line-height: 100%;
+  /* the text is all capitalized but the first letter is made bigger */
+  font-variant: small-caps;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Gotham Med', sans-serif;
+  font-size: 32px;
+  color: #024258;
+}
+
+h2 {
+  /* remove the extra whitespace surrounding the header as it is integrated into the content */
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 28px;
+  color: #50a2c0;
+}
+
+hr {
+  /* add margins to the left and right so the horizontal line doesn't start and end right at the edge */
+  margin: 15px auto;
+  color: #7c7b86;
+}
+
+a {
+  text-decoration: none;
+  font-family: 'Gotham Med', sans-serif;
+  color: #3683d2;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.center_text {
+  text-align: center;
+}
+
+.hidden {
+  display: none!important;
+}
+
+figure {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+/* this is a common class that is used across multiple pages */
+/* assigning this flexbox class to a container applies a common ruleset to it and its children */
+/* use when you want content to be side-by-side */
+.flexbox {
+  display: flex;
+  /* make the flex items wrap (be side-by-side) when there is sufficient room */
+  flex-wrap: wrap;
+  /* centers the flex items along the center of the flex container */
+  /* centered vertically when flex-direction: row; and centered horizontally when flex-direction: column; */
+  justify-content: center;
+  margin-top: 25px;
+  margin-bottom:25px;
+}
+
+/* used in "events.html", "weddings.html" and "services.html" */
+.quicklink a {
+  font-style: italic;
+}
+
+#top {
+  /* hide the scroll-to-top button when in desktop mode */
+  display: none;
+}
+
+/* ---  common elements end here --- */
+
+/* ---  navbar starts here --- */
+
+nav {
+  /* set flex-grow: 0; flex-shrink: 0; flex-basis: 50px; <-- navbar doesn't grow/shrink in height, stays at 50px height */
+  flex: 0 0 50px;
+  width: 100vw;
+  background-color: #72aabe;
+}
+
+nav ul {
+  /* turns nav bar into flexbox */
+  display: flex;
+  /* makes the <ul> fit the height of the <nav> element (which is 50px, as stated above) */
+  height: 100%;
+  /* remove the default padding and margin from <ul> by redeclaring as 0 */
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  /* set flex-shrink: 1; flex-basis: 15%; <-- navbar items shrink when they cannot fit into small navbar, default width of each navbar item is 15% of total width of <nav> */
+  flex: 0 1 15%;
+  /* sub-property of flexbox; forces navbar items to align vertically to center of <nav> */
+  align-self: center;
+  /* removes bullet points */
+  list-style: none;
+}
+
+nav ul li.left_links, nav ul li.right_links {
+  /* all text inside <li> tags except logo forced to pseudo-align vertically with center line of logo */
+  padding-bottom: 5px;
+}
+
+nav ul li.left_links {
+  /* makes all text left of the logo to be aligned to the right */
+  text-align: right;
+}
+
+nav ul li.right_links {
+  /* makes all text right of the logo to be aligned to the left */
+  text-align: left;
+}
+
+nav ul li.nav_logo {
+  /* re-declaring width of logo <li> to a set value of 150px, overrides flex-basis of 15% defined before */
+  /* note that declaring a flex-basis overrides a declaration of a width when using display flex */
+  flex-basis: 150px;
+  /* padding-left and padding-right so that there's whitespace between logo and nav links */
+  padding: 0 70px;
+}
+
+nav ul li.nav_logo img {
+  /* make the width of the logo a static value as 150px so it doesn't change shrink or grow at different viewports*/
+  width: 150px;
+  padding-top: 3px;
+}
+
+nav ul li a {
+  font-family: 'Gotham Book', sans-serif;
+  /* text is all capital letters and same height*/
+  font-variant: all-small-caps;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  /* no underline */
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  /* on mouse hover, underline reappears */
+  text-decoration: underline;
+}
+
+nav ul li.current_page a {
+  /* changes color of nav item to signal to user which page they are on */
+  color: black;
+  /* prevents the user from clicking the link as it would simply reload the same page then navigate somewhere new */
+  pointer-events: none;
+}
+
+/* --- navbar ends here --- */
+
+/* The background color for the homepage (.welcome) is rendering more white making the design look off */
+/* we noticed this testing in safari phone (not inspector) */
+/* to-top button not appearing in safari */
+
+/* --- index.html starts here --- */
+
+.intro {
+  display: flex;
+  padding-top: 25px;
+}
+
+.intro figure, .welcome {
+  flex-basis: 45%;
+}
+
+.intro figure {
+  /* add white space between the figure in intro and the welcome */
+  margin: auto 25px auto 0;
+}
+
+.intro figure img {
+  width: 100%;
+}
+
+.welcome {
+  /* add padding so the text does not start and end at the edges but retains the background */
+  padding: 10px 30px;
+  /* round the corners of the background like the figure next to it */
+  border-radius: 5px;
+  background-color: #f7f7f6;
+}
+
+.welcome h1 {
+  /* make the header centered within the welcome message (auto) */
+  /* also add artificial grayspace between top of .welcome and header (30px) */
+  margin: 30px auto 0 auto;
+  font-size: 38px;
+}
+
+.welcome hr {
+  width: 50%;
+}
+
+.slogan {
+  text-align: center;
+  line-height: 125%;
+  font-family: 'Gotham Book', sans-serif;
+  font-variant: normal;
+  font-size: 18px;
+  font-style: italic;
+  color: #50a2c0;
+}
+
+/* set a width and height so that the shortcut and its image, which is wrapped by an
+/* anchor tag that we cannot apply height/width to, are the same size */
+/* an anchor tag by definition does not have a set width and height */
+.shortcut, .shortcut img {
+  width: 180px;
+  height: 125px;
+}
+
+.shortcut {
+  /* set so that the .shortcut span (the labels) acts according to the this container, not body */
+  position: relative;
+  /* add whitespace to separate each shortcut image*/
+  margin: 10px;
+}
+
+.shortcut a:hover {
+  /* make the shortcut image opaque on hover to signal its clickable  */
+  opacity: 0.5;
+}
+
+.shortcut span {
+  /* have the label (span) float on top of the shortcut image */
+  position: absolute;
+  /* declares the position of the span to be exactly at the edge of the left, right, and bottom of the image shortcut */
+  right: 0; bottom: 0; left: 0;
+  /* make the bottom corners rounded like the image below it (fit the shape of the shortcut image exactly) */
+  height: 25%;
+  border-radius: 0 0 5px 5px;
+  text-align: center;
+  /* horizontally centers the text */
+  line-height: 28px;
+  font-family: "Gotham Med", sans-serif;
+  font-variant: small-caps;
+  font-size: 28px;
+  color: #50a2c0;
+  /* make the background slightly transparent so that the background image is slightly seen through the label */
+  /* this is another color property system like hex or rgb which allows one to set opacity as well (a stands for alpha)*/
+  background-color: rgba(255,255,255,0.85);
+  /* make the height of the span 25% the size of the shortcut div it's nested in */
+}
+
+/* --- index.html ends here --- */
+
+/* --- "services.html", "events.html", "weddings.html", and "portraits.html" starts here --- */
+
+h2.package_name {
+  font-size: 16px;
+  color: black;
+}
+
+.service_section {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.service_desc {
+  flex: 1 0 45%;
+  margin-right: 40px;
+  margin-left: 20px;
+}
+
+.service_desc ul {
+  margin-top: 0;
+  list-style: square;
+  font-variant: small-caps;
+  color: #424144;
+}
+
+figure.service_example  {
+  flex-basis: 35%;
+  margin-top: 0;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+figure.service_example img {
+  width: 100%;
+}
+
+.service_link {
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ---  services.html ends here --- */
+
+/* --- featured.html starts here --- */
+
+/* style all the figcaptions on this page; figcaption inherits the styling of figure */
+/* can alternatively be written as .logo figcaption, .featured figcaption */
+.logo, .featured {
+  text-align: center;
+  font-variant: small-caps;
+  color: #424144;
+}
+
+.logo {
+  flex-basis: 30%;
+  /* aligns the logos by the figcaption, because the logos are different sizes aligning it to the center of the image would make it look uneven */
+  align-self: baseline;
+}
+
+.logo img {
+  width: 150px;
+  /* adds spacing between figcaption and the image itself */
+  margin-bottom: 10px;
+}
+
+.featured img {
+  /* adds spacing between figcaption and the image itself */
+  margin-bottom: 10px;
+  /* have a set width and height so that changing the image in the slideshow does not shift the slideshow buttons */
+  /* the images have been physically adjusted to be approximately this size (if not exactly) so that the images do not appear stretched by manually setting the size */
+  width: 600px;
+  height: 400px;
+}
+
+.slideshow {
+  /* set since the slideshow buttons are set position absolute */
+  position: relative;
+  /* set the width as the same size as the images it contains */
+  width: 600px;
+  margin: 25px auto 40px auto;
+}
+
+#prev, #next {
+  position: absolute;
+  /* set so that the buttons are centered on the slideshow image */
+  /* we don't use 50% since the caption is included in the area thus the button would fall lower than halfway*/
+  top: 40%;
+  /* the padding creates more transparent background around the pointer so that the arrows don't stick exactly to the edge and are more noticeable */
+  padding: 10px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  /* make the background slightly transparent so that the background image is slightly seen through the label */
+  /* this is another color property system like hex or rgb which allows one to set opacity as well (a stands for alpha)*/
+  background: rgba(0,0,0,0.5);
+  /* make the cursor a pointer to signal to the user that the button is clickable */
+  cursor: pointer;
+}
+
+#prev {
+  left: 0;
+  border-radius: 0 5px 5px 0;
+}
+
+#next {
+  right: 0;
+  border-radius: 5px 0 0 5px;
+}
+
+#prev:hover, #next:hover {
+  background-color: black;
+}
+
+/* --- featured.html ends here --- */
+
+/* ---  faq.html starts here --- */
+
+.faq {
+  width: 100%;
+  /* add spacing between each faq question */
+  margin: 15px 0;
+  /* add whitespace between edges of .faq and content */
+  padding: 10px;
+  /* box-sizing meant to include padding into width:100%; calculation */
+  box-sizing: border-box;
+}
+
+.faq:hover {
+  background-color: #eef7fa;
+  /* make the cursor a pointer to signal to the user they click on the section to toggle the more info */
+  cursor: pointer;
+}
+
+.faq p {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.faq .collapse, .faq .expand {
+  /* add spacing between the content text and the more/less text */
+  padding-left: 5px;
+  font-family: "Gothic Med", sans-serif;
+  font-variant: all-small-caps;
+  font-size: 12px;
+  color: #6e7f9d;
+}
+
+/* ---  faq.html ends here --- */
+
+/* --- about.html starts here --- */
+
+.about_content {
+  margin-right: 35px;
+  margin-left: 35px;
+}
+
+/* orders the content of the page to go text and image then image and text */
+.about_content :nth-child(1) { order: 2; }
+.about_content :nth-child(2) { order: 1; }
+.about_content :nth-child(3) { order: 3; }
+.about_content :nth-child(4) { order: 4; }
+
+.about_content p {
+  flex-basis: 50%;
+  margin: 10px;
+}
+
+.about_content figure {
+  flex-basis: 35%;
+  margin: 10px;
+}
+
+.about_content figure img {
+  width: 100%;
+}
+
+.about_content figcaption {
+  margin: 10px;
+  text-align: center;
+  font-variant: small-caps;
+  color: #3e9dbd;
+}
+
+/* --- about.html ends here --- */
+
+/* --- contact.html starts here --- */
+
+.contact_info {
+  flex-basis: 40%;
+  padding: 0 25px;
+}
+
+.contact_info h2 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #3e9dbd;
+  font-size: 24px;
+  color: #3e9dbd;
+}
+
+.contact_info p {
+  margin-bottom: 25px;
+}
+
+.contact_info span {
+  font-weight: bold;
+}
+
+.contact_form {
+  flex-basis: 45%;
+  margin: 0 auto;
+  padding: 0 25px;
+}
+
+label {
+  font-family: "Gotham Book", sans-serif;
+  font-variant: small-caps;
+  font-size: 18px;
+  color: #3e9dbd;
+}
+
+input, textarea {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #3e9dbd;
+  font-family: "Gotham", sans-serif;
+  font-size: 14px;
+}
+
+textarea {
+  /* make it so the message box is only adjustable vertically so that it doesn't break the set width of the center content */
+  resize: vertical;
+}
+
+button {
+  width: 90px;
+  align-self: flex-end;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #3e9dbd;
+  font-family: "Gotham Book", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #3e9dbd;
+  background-color: white;
+}
+
+button:hover {
+  color: white;
+  background-color: #3e9dbd;
+  cursor: pointer;
+}
+
+.error_message {
+  display: inline-block;
+  margin-left: 5px;
+  padding-left: 5px;
+  border-left: 1px red solid;
+  font-size: 14px;
+  color: red;
+}
+/* --- contact.html ends here --- */
+
+/* --- footer starts here --- */
+
+footer {
+  /* set width: 100vw; = necessary for scrollbar avoidance, changes width of element that spans whole width of screen to follow screen width itself*/
+  width: 100vw;
+  /* set flex-shrink: 0;<-- makes so the footer doesn't shrink in height */
+  flex-shrink: 0;
+  /* centers all text to center of footer */
+  text-align: center;
+  font-family: "Gotham Book", sans-serif;
+  font-variant: small-caps;
+  font-size: 12px;
+  color: #fffff0;
+  background-color: #72aabe;
+}
+
+footer p {
+  width: 90%;
+  /* set the left and right margins to auto to center the text */
+  /* declare them separately so we don't override the default top and bottom margins */
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.copyright {
+  /* add spacing between copyright symbol and text so its not too cramped */
+  padding-left: 3px;
+  /* the copyright symbol is too small in comparison to text font size, so redefine to be slightly larger */
+  font-size: 13px;
+}
+
+/* --- footer ends here --- */
+
+
+
+/* --- media query starts here --- */
+
+/* --- tablet starts here --- */
+@media screen and (max-width: 960px) {
+  nav {
+    /* set so that the logo acts according to the this container, not body */
+    position: relative;
+    flex-basis: 100px;
+    width: 100%;
+    text-align: center;
+  }
+
+  nav ul li.nav_logo {
+    /* move logo outside of nav bar, make it its own entity */
+    position: absolute;
+    top: 15px;
+    right: 0;
+    left: 0;
+    flex-basis: 100%;
+    width: 100%;
+    max-width: 175px;
+    margin: auto;
+    padding: 0;
+  }
+
+  nav ul li.nav_logo img {
+    width: 100%;
+  }
+
+  nav ul {
+    justify-content: center;
+  }
+
+  nav ul li {
+    flex-basis: auto;
+    margin: 60px 10px 0 10px;
+    /* width of <li> elements now have an automatic width based on each of their own text length - more natural looking */
+    padding: 0 10px;
+  }
+
+  nav ul li.left_links, nav ul li.right_links {
+    text-align: center;
+  }
+
+  nav ul li a {
+    font-size: 22px;
+  }
+
+  .welcome {
+    flex-basis: 80%;
+    margin: 0 auto;
+  }
+
+  /* remove the welcome image as it does not provide important information */
+  /* we don't want users to miss important info trying to scroll through (smaller viewport makes the page longer) */
+  .intro figure {
+    display: none;
+  }
+
+  .shortcut {
+    width: 225px;
+    /* any image area not contained within .shortcut is not shown */
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+
+  /* all shortcuts on the left side have their left margin fill up the rest of the space on the left */
+  .shortcut:nth-of-type(odd) {
+    margin-right: 20px;
+    margin-left: 10%;
+  }
+
+  /* all shortcuts on the right side have their right margin fill up the rest of the space on the right */
+  .shortcut:nth-of-type(even) {
+    margin-right: 10%;
+    margin-left: 20px;
+  }
+
+  .shortcut img {
+    width: 100%;
+    /* height: auto; prevents images from being distorted by pre-defined dimensions */
+    height: auto;
+  }
+
+  /* make the slideshow the full size of the content */
+  .slideshow {
+    width: 100%;
+  }
+
+  .featured img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .about_content p {
+    margin-bottom: 25px;
+  }
+
+  /* reorder content from desktop view so that images and text are alternating */
+  .about_content :nth-child(1) { order: 1; }
+  .about_content :nth-child(2) { order: 2; }
+
+  /* resize content from desktop view so that images and text fit width of screen */
+  .about_content figure, .about_content p, .contact_form, .contact_info  {
+    flex-basis: 80%;
+  }
+
+  .contact_form {
+    margin-top: 25px;
+  }
+
+  .contact_info {
+    margin: 0 auto;
+  }
+}
+/* --- tablet ends here  --- */
+
+/* --- phone starts here --- */
+@media screen and (max-width: 700px) {
+  nav {
+    flex-basis: auto;
+    height: auto;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+  }
+
+  nav ul li {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* create spacing between "Home" and top of screen (for logo) + whitespace between "Contact" and bottom of nav bar */
+  nav ul li:first-child {
+    margin-top: 90px;
+  }
+  nav ul li:last-child {
+    margin-bottom: 25px;
+  }
+
+  nav ul li.nav_logo {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  li.nav_logo img {
+    width: 100%;
+  }
+
+  nav ul li, .welcome, .shortcut {
+    flex-basis: 100%;
+  }
+
+  .shortcut {
+    height: auto;
+    text-align: center;
+  }
+  /* all shortcuts have the same margin */
+  .shortcut:nth-of-type(odd), .shortcut:nth-of-type(even) {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  /* make shortcut fully visible and underlined when touched */
+  .shortcut a:hover {
+    opacity: 1;
+  }
+
+  /* hide image - images will stretch height of screen and are extraneous */
+  .shortcut img {
+    display: none;
+  }
+
+  .shortcut span {
+    position: relative;
+    background-color: white;
+  }
+
+  .welcome h1 {
+    font-size: 32px;
+  }
+
+  figure.service_example {
+    flex-basis: 100%;
+    margin-bottom: 25px;
+  }
+
+  .about_content {
+    margin: auto 0;
+  }
+
+  #top, #toptext {
+    display: block;
+  }
+
+  #top {
+    /* positions this to appear above all other content in the bottom right corner */
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    border-radius: 15px;
+    font-family: "Gothic Med", sans-serif;
+    /* make line height and font size the same to center the character inside the circle */
+    line-height: 32px;
+    font-size: 32px;
+    /* this trick changes the color of the character (font-color doesn't work) */
+    color: transparent;
+    text-shadow: 0 0 0 #72aabe;
+    /* creates a circular background */
+    background-color: #f7f7f6;
+    text-decoration: none;
+  }
+
+  #top:hover {
+    text-decoration: none;
+  }
+
+  #toptext {
+    /* positions the text to appear above all other content in the bottom right corner */
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    font-variant: all-small-caps;
+    font-size: 10px;
+    /* makes the text more readable by creating contrast */
+    text-shadow: 0 0 1px white;
+    color: black;
+  }
+}
+
+/* --- phone ends here --- */
+
+/* --- media query ends here --- */
